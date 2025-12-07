@@ -18,13 +18,13 @@ function require_login(): void
 }
 
 
-$public_views   = ['login', 'register', 'upcoming_events', 'details'];
-$public_actions = ['login', 'register', 'upcoming_events', 'details'];
+$admin_views   = ['manage_events', 'view_registrations', 'add_event'];
+$admin_actions = ['manage_events', 'view_registrations', 'add_event'];
 
-if ($action && !in_array($action, $public_actions, true)) {
+if ($action && in_array($action, $admin_actions, true)) {
     require_login();
 }
-if (!$action && !in_array($view, $public_views, true)) {
+if (!$action && in_array($view, $admin_views, true)) {
     require_login();
 }
 
@@ -38,7 +38,7 @@ switch ($action) {
             $user = user_find_by_username($username);
             if ($user && password_verify($password, $user['password_hash'])) {
                 $_SESSION['user_id'] = (int)$user['id'];
-                $view = 'list';
+                $view = 'welcome';
             } else {
                 $login_error = "Invalid username or password.";
                 $view = 'login';
@@ -56,6 +56,23 @@ switch ($action) {
         $view = 'login';
         break;
 
+        case 'event_register':
+        break;
+
+        case 'add_event':
+        $title        = trim((string)(filter_input(INPUT_POST, 'title') ?? ''));
+        $date         = (int)(filter_input(INPUT_POST, 'date') ?? 0);
+        $location     = trim((string)(filter_input(INPUT_POST, 'location') ?? ''));
+        $description  = trim((string)(filter_input(INPUT_POST, 'description') ?? ''));
+
+        if ($title && $date && $location) {
+            print_r($date);
+            event_create($title, $date, $location, $description);
+            $view = 'upcoming_events';
+        } else {
+            $view = 'add_event';
+        }
+        break;
 }
 
 
@@ -74,11 +91,13 @@ switch ($action) {
     <br>
     <?php
     if     ($view === 'login')              include __DIR__ . '/partials/login_form.php';
-    elseif ($view === 'register')           include __DIR__ . '/partials/register_form.php';
+    elseif ($view === 'event_register')     include __DIR__ . '/partials/pa_event_register_form.php';
     elseif ($view === 'upcoming_events')    include __DIR__ . '/partials/pa_upcoming_events.php';
     elseif ($view === 'manage_events')      include __DIR__ . '/partials/a_manage_events.php';
+    elseif ($view === 'add_event')          include __DIR__ . '/partials/a_add_event.php';
     elseif ($view === 'view_registrations') include __DIR__ . '/partials/a_view_registrations.php';
     elseif ($view === 'details')            include __DIR__ . '/partials/pa_details.php';
+    elseif ($view === 'welcome')            include __DIR__ . '/partials/welcome.php';
     else                                    include __DIR__ . '/partials/welcome.php';
     ?>
 </body>

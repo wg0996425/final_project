@@ -18,5 +18,3 @@
     <input type="hidden" name="action" value="login">
     <button>Login</button>
 </form>
-
-<a href="?view=register">Register</a>
