@@ -1,4 +1,4 @@
-<h1>Login</h1>
+<h1>Administrator Login</h1>
 
 <?php if (!empty($login_error)): ?>
     <div><?= $login_error ?></div>

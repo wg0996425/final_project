@@ -1,6 +1,6 @@
 <?php 
 
-$rows = events_all();
+$rows = upcoming_events_all();
 
 ?>
 
@@ -24,7 +24,7 @@ $rows = events_all();
                 <td>
                     <form method="post">
                         <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                        <input type="hidden" name="action" value="view_details">
+                        <input type="hidden" name="view" value="welcome">
                         <button>View</button>
                     </form>
                 </td>

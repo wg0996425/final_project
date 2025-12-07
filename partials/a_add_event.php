@@ -3,10 +3,10 @@
 $is_edit     = isset($event) && isset($event['id']);
 $action      = $is_edit ? 'update_event' : 'add_event';
 
-$title       = $is_edit ? htmlspecialchars($record['title'])  : '';
-$date        = $is_edit ? htmlspecialchars($record['event_date']) : '';
-$location    = $is_edit ? htmlspecialchars($record['location'])  : '';
-$description = $is_edit ? htmlspecialchars($record['description'])  : '';
+$title       = $is_edit ? htmlspecialchars($event['title'])  : '';
+$date        = $is_edit ? htmlspecialchars($event['event_date']) : '';
+$location    = $is_edit ? htmlspecialchars($event['location'])  : '';
+$description = $is_edit ? htmlspecialchars($event['description'])  : '';
 
 ?>
 

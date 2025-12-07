@@ -10,10 +10,10 @@
         <li>
             <form method="post">
                 <input type="hidden" name="action" value="logout">
-                <button class="btn btn-sm btn-outline-secondary">Logout</button>
+                <button>Logout</button>
             </form>
         </li>
     <?php else: ?>
-        <li><a href="?view=login">Login</a></li>
+        <li><a href="?view=login">Admin Login</a></li>
     <?php endif; ?>
 </ul>

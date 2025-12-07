@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include __DIR__ . "/data/db.php";
 include __DIR__ . "/data/functions.php";
@@ -49,19 +49,29 @@ switch ($action) {
         }
         break;
 
-        case 'logout':
+    case 'logout':
         $_SESSION = [];
         session_destroy();
         session_start();
         $view = 'login';
         break;
 
-        case 'event_register':
+    case 'event_register':
+        $event_id = (int)(filter_input(INPUT_POST, 'event_id') ?? 0);
+        $name     = trim((string)(filter_input(INPUT_POST, 'name') ?? ''));
+        $email    = trim((string)(filter_input(INPUT_POST, 'email') ?? ''));
+
+        if ($name && $email) {
+            registered_insert($event_id, $name, $email);
+            $view = 'event_registered';
+        } else {
+            $view = 'event_register';
+        }
         break;
 
-        case 'add_event':
+    case 'add_event':
         $title        = trim((string)(filter_input(INPUT_POST, 'title') ?? ''));
-        $date         = (int)(filter_input(INPUT_POST, 'date') ?? 0);
+        $date         = trim((string)(filter_input(INPUT_POST, 'date') ?? ''));
         $location     = trim((string)(filter_input(INPUT_POST, 'location') ?? ''));
         $description  = trim((string)(filter_input(INPUT_POST, 'description') ?? ''));
 
@@ -73,6 +83,16 @@ switch ($action) {
             $view = 'add_event';
         }
         break;
+    
+    case 'view_details':
+        $event_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+        if ($id) {
+            $description = events_all($event_id);
+        }
+
+        $view = 'view_details';
+        break;
 }
 
 
@@ -81,18 +101,22 @@ switch ($action) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Planner</title>
 </head>
+
 <body>
     <?php include __DIR__ . '/components/nav.php'; ?>
     <br>
     <?php
-    if     ($view === 'login')              include __DIR__ . '/partials/login_form.php';
+    if ($view === 'login')              include __DIR__ . '/partials/login_form.php';
     elseif ($view === 'event_register')     include __DIR__ . '/partials/pa_event_register_form.php';
+    elseif ($view === 'event_registered')   include __DIR__ . '/partials/pa_event_registered.php';
     elseif ($view === 'upcoming_events')    include __DIR__ . '/partials/pa_upcoming_events.php';
+    elseif ($view === 'view_details')       include __DIR__ . '/partials/pa_details.php';
     elseif ($view === 'manage_events')      include __DIR__ . '/partials/a_manage_events.php';
     elseif ($view === 'add_event')          include __DIR__ . '/partials/a_add_event.php';
     elseif ($view === 'view_registrations') include __DIR__ . '/partials/a_view_registrations.php';
@@ -101,4 +125,5 @@ switch ($action) {
     else                                    include __DIR__ . '/partials/welcome.php';
     ?>
 </body>
+
 </html>
