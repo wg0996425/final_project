@@ -27,11 +27,10 @@ function find_registration_by_id(int $event_id): array
 {
     $pdo = get_pdo();
     $stmt = $pdo->prepare("
-        SELECT * FROM registrations WHERE event_id = :i
+        SELECT * FROM registrations WHERE event_id = :ei
     ");
-    $stmt->execute([':i' => $event_id]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $row ?: null;
+    $stmt->execute([':ei' => $event_id]);
+    return $stmt->fetchAll();
 }
 
 function find_event_by_id(int $id): array

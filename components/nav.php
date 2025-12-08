@@ -1,6 +1,7 @@
 <ul>
     <li><a href="?view=upcoming_events">Upcoming Events</a></li>
     <li><a href="?view=event_register">Register for an Event</a></li>
+    <h3>Event Planner</h3>
 </ul>
 
 <ul>

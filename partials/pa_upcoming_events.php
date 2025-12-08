@@ -5,7 +5,7 @@ $rows = upcoming_events_all();
 ?>
 
 
-<h1>Upcoming Events</h1>
+<h1>Upcoming Events!</h1>
 
 <table>
     <thead>

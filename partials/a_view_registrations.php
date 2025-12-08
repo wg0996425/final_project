@@ -9,14 +9,14 @@ $events = events_all();
 <table>
     <?php if (count($events) > 0): ?>
         <?php foreach ($events as $e): ?>
-            <h2><?= htmlspecialchars($e['title']) ?></h2>
+
             <thead>
-                <th>Name</th>
-                <th>Email</th>
+            <th><?= htmlspecialchars($e['title']) ?></th>
             </thead>
+
             <tbody>
-                <?php $registrations = find_registration_by_id((int)$e['id']) ?>
-                <?php if (count($registrations) > 0): ?>
+                <?php $registrations = find_registration_by_id((int)$e['id']);
+                if (count($registrations) > 0): ?>
                     <?php foreach ($registrations as $r): ?>
                         <td><?= htmlspecialchars($r['name']) ?></td>
                         <td><?= htmlspecialchars($r['email']) ?></td>
@@ -25,6 +25,7 @@ $events = events_all();
                     <td>Nobody Registered!</td>
                 <?php endif; ?>
             </tbody>
+
         <?php endforeach; ?>
     <?php else: ?>
         <th>No events so far!</th>

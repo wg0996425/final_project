@@ -113,12 +113,12 @@ switch ($action) {
     case 'update_event':
         $id          =         filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         $title       = (string)filter_input(INPUT_POST, 'title',  FILTER_UNSAFE_RAW);
-        $event_date  = (string)filter_input(INPUT_POST, 'event_date', FILTER_UNSAFE_RAW);
+        $date        = trim((string)filter_input(INPUT_POST, 'date', FILTER_UNSAFE_RAW));
         $location    = (string)filter_input(INPUT_POST, 'location',  FILTER_UNSAFE_RAW);  
         $description = (string)filter_input(INPUT_POST, 'description', FILTER_UNSAFE_RAW);
 
         if ($id) {
-            event_update($id, $title, $event_date, $location, $description);
+            event_update($id, $title, $date, $location, $description);
         }
         $view = 'manage_events';
         break;
