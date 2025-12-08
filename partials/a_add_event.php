@@ -30,7 +30,7 @@ $description = $is_edit ? htmlspecialchars($event['description'])  : '';
 
     <div>
         <label>Description</label>
-        <input name="description" type="text" value="<?= $description ?>" required>
+        <input name="description" type="text" value="<?= $description ?>">
     </div>
 
 
@@ -41,6 +41,6 @@ $description = $is_edit ? htmlspecialchars($event['description'])  : '';
 
     <div>
         <button><?= $is_edit ? 'Update' : 'Create' ?></button>
-        <a href="?view=welcome">Cancel</a>
+        <a href="?view=upcoming_events">Cancel</a>
     </div>
 </form>

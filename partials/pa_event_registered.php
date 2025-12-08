@@ -5,6 +5,5 @@ $title = htmlspecialchars($event['title']);
 
 ?>
 
-
 <h2>Thank you for registering for <?= $title ?>, <?= $name ?>! </h2>
 <a href="?view=upcoming_events">Back to Upcoming Events</a>

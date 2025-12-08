@@ -22,11 +22,15 @@ $rows = upcoming_events_all();
                 <td><?= htmlspecialchars($r['event_date']) ?></td>
                 <td><?= htmlspecialchars($r['location']) ?></td>
                 <td>
-                    <form method="post">
-                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                        <input type="hidden" name="view" value="welcome">
-                        <button>View</button>
-                    </form>
+                    <?php if (!empty($r['description'])) :?>
+                        <form method="post">
+                            <input type="hidden" name="event_id" value="<?= $r['id'] ?>">
+                            <input type="hidden" name="action" value="view_details">
+                            <button>View</button>
+                        </form>
+                    <?php else: ?>
+                        <td>N/A</td>
+                    <?php endif; ?>
                 </td>
             <?php endforeach; ?>
         <?php else: ?>

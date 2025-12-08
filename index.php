@@ -38,7 +38,7 @@ switch ($action) {
             $user = user_find_by_username($username);
             if ($user && password_verify($password, $user['password_hash'])) {
                 $_SESSION['user_id'] = (int)$user['id'];
-                $view = 'welcome';
+                $view = 'upcoming_events';
             } else {
                 $login_error = "Invalid username or password.";
                 $view = 'login';
@@ -76,7 +76,6 @@ switch ($action) {
         $description  = trim((string)(filter_input(INPUT_POST, 'description') ?? ''));
 
         if ($title && $date && $location) {
-            print_r($date);
             event_create($title, $date, $location, $description);
             $view = 'upcoming_events';
         } else {
@@ -85,13 +84,43 @@ switch ($action) {
         break;
     
     case 'view_details':
+        $event_id = filter_input(INPUT_POST, 'event_id', FILTER_VALIDATE_INT);
+
+        if (!empty($event_id)) {
+            $view = 'view_details';
+        } else {
+            $view = 'upcoming_events';
+        };
+
+        break;
+    
+    case 'edit_event':
         $event_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        if ($event_id) {
+            $event = find_event_by_id($event_id);
+        }
+        $view = 'add_event';
+        break;
+
+    case 'delete_event':
+        $event_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        if ($event_id) {
+            $deleted = event_delete($event_id);
+        }
+        $view = 'manage_events';
+        break;
+    
+    case 'update_event':
+        $id          =         filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $title       = (string)filter_input(INPUT_POST, 'title',  FILTER_UNSAFE_RAW);
+        $event_date  = (string)filter_input(INPUT_POST, 'event_date', FILTER_UNSAFE_RAW);
+        $location    = (string)filter_input(INPUT_POST, 'location',  FILTER_UNSAFE_RAW);  
+        $description = (string)filter_input(INPUT_POST, 'description', FILTER_UNSAFE_RAW);
 
         if ($id) {
-            $description = events_all($event_id);
+            event_update($id, $title, $event_date, $location, $description);
         }
-
-        $view = 'view_details';
+        $view = 'manage_events';
         break;
 }
 
@@ -121,8 +150,7 @@ switch ($action) {
     elseif ($view === 'add_event')          include __DIR__ . '/partials/a_add_event.php';
     elseif ($view === 'view_registrations') include __DIR__ . '/partials/a_view_registrations.php';
     elseif ($view === 'details')            include __DIR__ . '/partials/pa_details.php';
-    elseif ($view === 'welcome')            include __DIR__ . '/partials/welcome.php';
-    else                                    include __DIR__ . '/partials/welcome.php';
+    else                                    include __DIR__ . '/partials/upcoming_events.php';
     ?>
 </body>
 

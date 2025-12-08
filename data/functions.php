@@ -23,6 +23,17 @@ function events_all(): array
     return $stmt->fetchAll();
 }
 
+function find_registration_by_id(int $event_id): array 
+{
+    $pdo = get_pdo();
+    $stmt = $pdo->prepare("
+        SELECT * FROM registrations WHERE event_id = :i
+    ");
+    $stmt->execute([':i' => $event_id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
 function find_event_by_id(int $id): array
 {
     $pdo = get_pdo();
@@ -46,6 +57,25 @@ function event_create(string $title, string $event_date, string $location, strin
         ':event_date'    => $event_date,
         ':location'      => $location,
         ':description'   => $description
+    ]);
+}
+
+function event_update(int $id, string $title, string $event_date, string $location, string $description): void
+{
+    $pdo = get_pdo();
+    $sql = "UPDATE events
+                SET title = :title,
+                event_date = :event_date,
+                location = :location,
+                description = :description
+                WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':title'       => $title,
+        ':event_date'  => $event_date,
+        ':location'    => $location,
+        ':description' => $description,
+        ':id'          => $id
     ]);
 }
 
@@ -79,4 +109,11 @@ function user_create(string $username, string $hash): void
             VALUES (:u, :p)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':u' => $username, ':p' => $hash]);
+}
+
+function event_delete(int $id)
+{
+    $pdo = get_pdo();
+    $stmt = $pdo->prepare("DELETE FROM events WHERE id = :id");
+    $stmt->execute([':id' => $id]);
 }
