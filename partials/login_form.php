@@ -6,15 +6,15 @@
 
 <form method="post">
     <div>
-        <label>Username</label>
-        <input type="text" name="username">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control">
     </div>
 
     <div>
-        <label>Password</label>
-        <input type="password" name="password">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control">
     </div>
 
     <input type="hidden" name="action" value="login">
-    <button>Login</button>
+    <button class="btn btn-primary">Login</button>
 </form>

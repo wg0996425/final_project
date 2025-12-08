@@ -11,19 +11,19 @@ $events = upcoming_events_all();
 <?php endif; ?>
 
 <form method="post">
-    <div>
-        <label>Name</label>
-        <input type="text" name="name" required>
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" name="name" required class="form-control">
     </div>
 
-    <div>
-        <label>Email</label>
-        <input type="email" name="email" required>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" required class="form-control">
     </div>
 
-    <div>
-        <label>Event</label>
-        <select name="event_id" required>
+    <div class="mb-3">
+        <label class="form-label">Event</label>
+        <select name="event_id" required class="form-select">
             <option value="">Select...</option>
             <?php foreach ($events as $e): ?>
                 <?php $eid = (int)$e['id']; ?>
@@ -35,5 +35,5 @@ $events = upcoming_events_all();
     </div>
     
     <input type="hidden" name="action" value="event_register">
-    <button>Register</button>
+    <button class="btn btn-primary">Register</button>
 </form>
